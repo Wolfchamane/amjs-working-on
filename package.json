@@ -1,0 +1,23 @@
+{
+    "name": "@amjs/working-on",
+    "version": "0.1.0",
+    "description": "Backend of @amjs/working-on project",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Wolfchamane/amjs-working-on.git"
+    },
+    "author": "Arturo Martínez Díaz <arturo.martinez@amartinez.dev>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Wolfchamane/amjs-working-on/issues"
+    },
+    "homepage": "https://github.com/Wolfchamane/amjs-working-on#readme",
+    "private": true
+}
