@@ -1,6 +1,6 @@
-const http = require('http');
-
-const authorization = '1234567890-0987654321';
+const { version = '0.1.0' } = require('./package');
+const bodyParser            = require('body-parser');
+const express               = require('express');
 
 const methods = [
     'OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'
@@ -10,12 +10,7 @@ const headers = [
     'Accept', 'Authorization', 'Content-Type'
 ];
 
-const messages = {
-    200 : 'OK',
-    401 : 'Unauthorized'
-};
-
-const _avoidCORS = res =>
+const _avoidCORS = (req, res) =>
 {
     res.setHeader('Access-Control-Allow-Headers', headers.map(header => header.toLowerCase()).join());
     res.setHeader('Access-Control-Allow-Methods', methods.join());
@@ -23,49 +18,14 @@ const _avoidCORS = res =>
     res.setHeader('Content-Type', 'application/json');
 };
 
-const _isSecure = req =>
+const _reqHandler = (req, res) =>
 {
-    return req.headers['authorization'] === `Bearer ${authorization}`;
+    res.status(200).json({ "data": "It works!" });
 };
 
-const _handler = (req, res) =>
-{
-    let status = 200;
-    let response = {
-        errors : [],
-        data   : {}
-    };
 
-    if (_isSecure(req))
-    {
-        switch (req.method)
-        {
+const app = express();
+app.use(bodyParser.json());
 
-        }
-    }
-    else
-    {
-        status = 401;
-    }
-
-    _exit(status, res, response);
-};
-
-const _exit = (status = 200, res = {}, response = {}) =>
-{
-    _avoidCORS(res);
-    if (Number(status[0]) >= 4)
-    {
-        response.errors.push({
-            code    : status,
-            message : messages[status]
-        });
-    }
-    res.statusCode      = status;
-    res.statusMessage   = messages[status];
-    res.end(JSON.stringify(response));
-};
-
-http
-    .createServer(_handler)
-    .listen(3000, 'localhost', () => console.log('Server running!'));
+app.get('*', _avoidCORS);
+app.get(`/api/${version}/health`, _reqHandler);
